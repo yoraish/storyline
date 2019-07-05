@@ -1,34 +1,66 @@
-
-
-  
 <!DOCTYPE html>
 <html>
-<body bgcolor="#624050">
-  
-  function get_last_line(){
-  // Gets the last line from the json file.
-  }
-  
-  function put_new_line(string new_line){
-  
-  // Puts new line into the text part of the json file.
-  // Puts new line into the last_line of the json file.
-  }
-  
 
-<p style="color:white;">
-  
-  THIS IS STORYLINE
-  <br>
-  <br>
-  You are working on story ID: YoraiElise
-  <br>
-  <br>
-  This is the most recent line added to the story:
-  <br>
-  Add your line below, no line-breaks please!!
-  <br>
-<p>
+<script>
+    function put_new_line() {
+
+        // Puts new line into the text part of the json file.
+        // Puts new line into the last_line of the json file.
+
+        var new_line = document.getElementById("input_form").elements["new_line_input"].value;
+        document.getElementById("print_new_line").innerHTML = "Submitted line: " + new_line;
+    }
+
+
+
+    function get_last_line() {
+        var fs = require('fs')
+        // Gets the last line from the json file.
+        // Open the json file.
+        var data_raw = fs.readFileSync("last_and_story.json")
+        var data = JSON.parse(data_raw);
+        console.log(data);
+
+
+        var last_line = data.last;
+        var story = data.story;
+        document.getElementById("print_last_line").innerHTML = last_line;
+
+
+
+    }
+</script>
+
+<body bgcolor="#624050">
+
+
+    <h1 style="color:blanchedalmond;">Welcome to Storyline</h1>
+    <p style="color:blanchedalmond;">You are working on story ID: YoraiElise<br> </p>
+
+    <p style="color:blanchedalmond;">The most recent line in the story is<br> </p>
+    <p id="print_last_line" style="color:blanchedalmond;">hi</p>
+    <script>get_last_line();</script>
+
+
+
+    <form id="input_form">
+        <font style="color:blanchedalmond;">Insert new line (click button, do not press enter)<br></font>
+        <input name="new_line_input" type="text" size=200>
+    </form>
+    <button onclick="put_new_line()">
+        <font color="grey"> Submit. </font>
+    </button>
+
+    <p id="print_new_line">Waiting for input.</p>
+
+
+    <br><br>
+
+
+
+
+
 
 </body>
+
 </html>
