@@ -52,7 +52,7 @@ def print_story():
         story = data["story"]
         story_as_list = story.split("\n")
         for line in story_as_list:
-            print("<p>"+line+"<\p>")
+            print("<p>"+line+"<\\p>")
 
 def create_json():
     sample_json = {"last": "This is the most most recent line",
