@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-print ("Access-Control-Allow-Origin: *\r\n")
-print( "Content-type: text/html\n")
+print ("Access-Control-Allow-Origin: *\r\nContent-type: text/html\r\n")
 import cgitb
 import cgi
 import datetime
@@ -25,7 +24,6 @@ def get_last_line():
     with open("last_and_story.json") as jsonfile:
         data = json.load(jsonfile)
         last_line = data["last"]
-        story = data["story"] # This loads the whole story to memory, which is kinda meh. But let's assume for nw that that's fine.
         return last_line
 
 def add_line(new_line):
