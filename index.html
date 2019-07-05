@@ -10,31 +10,45 @@
         var new_line = document.getElementById("input_form").elements["new_line_input"].value;
         document.getElementById("print_new_line").innerHTML = "Submitted line: " + new_line;
     }
+</script>
 
 
-
+<script>
     function get_last_line() {
-        var fs = require('fs')
-        // Gets the last line from the json file.
-        // Open the json file.
-        var data_raw = fs.readFileSync("last_and_story.json")
-        var data = JSON.parse(data_raw);
-        console.log(data);
 
-
-        var last_line = data.last;
-        var story = data.story;
-        document.getElementById("print_last_line").innerHTML = last_line;
-
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              document.getElementById("print_last_line").innerHTML =
+              this.responseText;
+            }
+          };
+        xhr.open('get', 'https://yorai.scripts.mit.edu/storyline/storyline.py?command=get', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        xhr.send();
 
 
     }
 </script>
 
+<!-- <script>
+        function get_last_line() {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              document.getElementById("print_last_line").innerHTML =
+              this.responseText;
+            }
+          };
+          xhttp.open("GET", "story.txt", true);
+          xhttp.send();
+        }
+        </script> -->
+
 <body bgcolor="#624050">
 
 
-    <h1 style="color:blanchedalmond;">Welcome to Storyline</h1>
+    <h1 style="color:blanchedalmond;">Welcome to Storylin_e</h1>
     <p style="color:blanchedalmond;">You are working on story ID: YoraiElise<br> </p>
 
     <p style="color:blanchedalmond;">The most recent line in the story is<br> </p>
@@ -64,3 +78,52 @@
 </body>
 
 </html>
+<!-- 
+<center><h5>Control A Servo From a Website!!</h5></center>
+<input type="submit" value="Angle = 8" onclick="submit(8)">
+
+<div class="slidecontainer">
+  <input type="range" min="1" max="180" value="90" class="slider" id="myRange" style="width:600px;">
+</div>
+<span id="f" style="font-weight:bold;color:red">90</span>
+<br>
+<input type="button" value="reset angle" style="width:600px;height:5px;"  onclick="submit(90); changeText('f','90'); setSlider('myRange',90)">
+
+<script type="text/javascript">
+  var slider = document.getElementById("myRange"); 
+  var y = document.getElementById("f");
+  y.innerHTML = slider.value;
+  slider.oninput = function() {
+     y.innerHTML = this.value;  
+     var xhr = new XMLHttpRequest();
+     xhr.open('get', `https://yorai.scripts.mit.edu/servo/serverServo.py?command=${this.value}`, true);
+     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+     xhr.send();
+  }
+</script>
+
+<script type="text/javascript">
+    function submit(angle) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('get', `https://yorai.scripts.mit.edu/servo/serverServo.py?command=${angle}`, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        xhr.send();
+    }
+
+</script>
+
+<script>
+  //expects strings for both id and newText
+  function changeText(id,newText) {
+    var element = document.getElementById(id);
+    element.innerHTML = newText;
+  }
+</script>
+
+<script>
+  //expects a string for sliderId and int for value
+  function setSlider (sliderId, value){
+    slider = document.getElementById(sliderId);
+    slider.value = value;
+  }
+</script> -->
