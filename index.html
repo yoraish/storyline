@@ -8,26 +8,39 @@
         // Puts new line into the last_line of the json file.
 
         var new_line = document.getElementById("input_form").elements["new_line_input"].value;
-        document.getElementById("print_new_line").innerHTML = "Submitted line: " + new_line;
+        // Send the HTTP GET request
+        const Http = new XMLHttpRequest();
+        const url = `https://yorai.scripts.mit.edu/storyline/storyline.py?command=add&line=${new_line}`;
+        Http.open("GET", url);
+        Http.send();
+
+        Http.onreadystatechange = (e) => {
+            var response_text = Http.responseText;
+            console.log("Response from command \"add\" %s", response_text);
+            document.getElementById("print_new_line").innerHTML =
+                response_text;
+
+            // Just write that the line was submitted
+            document.getElementById("print_new_line").innerHTML = "Succesfully submitted line: \"" + response_test + "\" ";
+        }
+
     }
 </script>
 
 
 <script>
     function get_last_line() {
+        const Http = new XMLHttpRequest();
+        const url = 'https://yorai.scripts.mit.edu/storyline/storyline.py?command=get';
+        Http.open("GET", url);
+        Http.send();
 
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-              document.getElementById("print_last_line").innerHTML =
-              this.responseText;
-            }
-          };
-        xhr.open('get', 'https://yorai.scripts.mit.edu/storyline/storyline.py?command=get', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-        xhr.send();
-
-
+        Http.onreadystatechange = (e) => {
+            var response_text = Http.responseText;
+            console.log("Response from command \"get\" %s", response_text);
+            document.getElementById("print_last_line").innerHTML =
+                response_text;
+        }
     }
 </script>
 
@@ -64,7 +77,7 @@
     <button onclick="put_new_line()">
         <font color="grey"> Submit. </font>
     </button>
-
+    <p  style="color:blanchedalmond;"> The submitted line:</p>
     <p id="print_new_line">Waiting for input.</p>
 
 

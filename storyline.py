@@ -43,6 +43,17 @@ def add_line(new_line):
         json.dump(new_data, jsonfile)
     return new_line
 
+def print_story():
+    # Converts the story to html (linebreaks) and prints it.
+    # Get story from json.
+    with open("last_and_story.json") as jsonfile:
+        # Get the contents of the file.
+        data = json.load(jsonfile)
+        story = data["story"]
+        story_as_list = story.split("\n")
+        for line in story_as_list:
+            print("<p>"+line+"<\p>")
+
 def create_json():
     sample_json = {"last": "This is the most most recent line",
                     "story": "Old line\nOlder line.\nOldest line.\n"}
@@ -67,6 +78,8 @@ def handle_request(request):
         new_line = request["line"].value
         res = add_line(new_line)
         print(res)
+    if command == "show":
+        print_story()
 
 
 
