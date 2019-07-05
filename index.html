@@ -17,7 +17,7 @@
         Http.onreadystatechange = (e) => {
             var response_text = Http.responseText;
             console.log("Response from command \"add\" %s", response_text);
-            document.getElementById("print_new_line").innerHTML =
+            document.getElementById("print_last_line").innerHTML =
                 response_text;
 
             // Just write that the line was submitted
