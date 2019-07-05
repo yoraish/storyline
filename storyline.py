@@ -42,6 +42,7 @@ def add_line(new_line):
     # Wrtie back to json
     with open("last_and_story.json", 'w') as jsonfile:
         json.dump(new_data, jsonfile)
+    return new_line
 
 def create_json():
     sample_json = {"last": "This is the most most recent line",
@@ -62,10 +63,12 @@ def handle_request(request):
         last_line = get_last_line()
         print(last_line)
 
-        pass
     if command == "add":
-        pass
-    print(command)
+        # Get new line string
+        new_line = request["line"].value
+        res = add_line(new_line)
+        print(res)
+
 
 
 
