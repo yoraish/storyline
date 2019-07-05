@@ -56,7 +56,7 @@ def handle_request(request):
     > command -> "get" || "add"
     > line    -> "line_text_string". Empty if in in "get" command.
     """
-    command = request["command"]
+    command = request["command"].value
     print(command)
 
 
