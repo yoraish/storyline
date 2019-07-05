@@ -56,15 +56,16 @@ def handle_request(request):
     > command -> "get" || "add"
     > line    -> "line_text_string". Empty if in in "get" command.
     """
-    
+    command = request["command"]
+    print(command)
 
 
 
 if __name__ == "__main__":
     # create_json()
-    get_last_line()
-    add_line("TSUPERline")
-    get_last_line()
+    # get_last_line()
+    # add_line("TSUPERline")
+    # get_last_line()
 
 
     # Get the request.
