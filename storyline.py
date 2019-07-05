@@ -25,8 +25,7 @@ def get_last_line():
         data = json.load(jsonfile)
         last_line = data["last"]
         story = data["story"] # This loads the whole story to memory, which is kinda meh. But let's assume for nw that that's fine.
-        print(">>The last line is=", last_line)
-        print(">>The whole story is:\n", story)
+        return last_line
 
 def add_line(new_line):
     # Adds the new line to the story and sets it in the last line place in the json file.
@@ -57,6 +56,15 @@ def handle_request(request):
     > line    -> "line_text_string". Empty if in in "get" command.
     """
     command = request["command"].value
+
+    if command == "get":
+        # Print out the most recent line
+        last_line = get_last_line()
+        print(last_line)
+
+        pass
+    if command == "add":
+        pass
     print(command)
 
 
