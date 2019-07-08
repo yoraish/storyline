@@ -63,10 +63,9 @@ def email_out(name_of_updater = "default_yorai"):
     server.login("storyline.notifications@gmail.com", "storylineApp")
 
     for name, email in authors_to_emails.items():
-        print("name=", name,"|")
 
-        msg_content = "Hello "+name+  "the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\nCheck it out!\n\n May you be forgiven for your sins,\nThe Storyline team."
-        server.sendmail("storyline.notifications@gmail.com", "yorai@mit.edu", msg_content)
+        msg_content = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\nCheck it out!\n\n May you be forgiven for your sins,\nThe Storyline team."
+        server.sendmail("storyline.notifications@gmail.com", str(email), msg_content)
         print(msg_content)
 
     server.close()
@@ -84,14 +83,14 @@ def print_story():
             print("<p>"+line+"</p>")
         
         authors = data["authors"]
-        print("<br>The autHors are: ")
+        print("<br>The authors are: ")
         print("<p>")
         for author,email in authors.items():
             print("<br>")
             print(str(author), ": ", str(email))
         print("</p>")
 
-        email_out("yooorai")
+        email_out("yorai the strong")
     
 
 
