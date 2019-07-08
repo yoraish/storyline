@@ -46,7 +46,7 @@ def add_line(new_line):
         json.dump(new_data, jsonfile)
     return new_line
 
-def email_out(author, authors):
+def email_out(name_of_updater = "default_yorai"):
     # Get the authors to email map from json file
     """
     TODO - GET THE NAME OF THE AUTHOR FROM THE HTTP REQUEST
@@ -54,6 +54,7 @@ def email_out(author, authors):
     """
     with open("last_and_story.json") as jsonfile:
         # Get the authors of the file.
+        data = json.load(jsonfile)
         authors_to_emails = data["authors"]
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -86,6 +87,9 @@ def print_story():
             print("<br>")
             print(str(author), ": ", str(email))
         print("</p>")
+
+        email_out("yooorai")
+    
 
 
 # def create_json():
