@@ -6,6 +6,8 @@ import datetime
 import sqlite3
 import datetime
 import json
+import smtplib
+
 # # code that is responsible to return the most recent line from the story and also handle the insertion of a new line
 
 # cgitb.enable()
@@ -32,16 +34,21 @@ def add_line(new_line):
     with open("last_and_story.json") as jsonfile:
         # Get the contents of the file.
         data = json.load(jsonfile)
-        story = data["story"] # This loads the whole story to memory, which is kinda meh. But let's assume for nw that that's fine.
+        story = data["story"] # This loads the whole story to memory, which is kinda meh. But let's assume for now that that's fine.
+        authors = data["authors"]
         # Modify new line to be updated
         last_line = new_line
         # Add it to story, anding the line afterwards
         story+= new_line+"\n"
-        new_data = {"last":last_line, "story":story}
+        new_data = {"last":last_line, "story":story, "authors": authors}
     # Wrtie back to json
     with open("last_and_story.json", 'w') as jsonfile:
         json.dump(new_data, jsonfile)
     return new_line
+
+def email_out(author, authors):
+    # get the authors to email map from json file
+    pass
 
 def print_story():
     # Converts the story to html (linebreaks) and prints it.
@@ -53,10 +60,18 @@ def print_story():
         story_as_list = story.split("\n")
         for line in story_as_list:
             print("<p>"+line+"</p>")
+        
+        authors = data["authors"]
+        print("<br>The autors are: ")
+        for author,email in authors.items():
+            print(author, ": ", email)
+            print("<br>")
+
 
 def create_json():
     sample_json = {"last": "This is the most most recent line",
-                    "story": "Old line\nOlder line.\nOldest line.\n"}
+                    "story": "Old line\nOlder line.\nOldest line.\n",
+                    "authors":{"yorai":"yorai@mit.edu", "elise":"emcc1016@mit.edu"}}
     with open("last_and_story.json", 'w') as jsonfile:
         json.dump(sample_json, jsonfile)    
 
@@ -78,6 +93,8 @@ def handle_request(request):
         new_line = request["line"].value
         res = add_line(new_line)
         print(res)
+        # Email out
+
     if command == "show":
         print_story()
 
