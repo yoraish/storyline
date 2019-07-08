@@ -63,9 +63,11 @@ def print_story():
         
         authors = data["authors"]
         print("<br>The autors are: ")
+        print("<p>")
         for author,email in authors.items():
-            print(author, ": ", email)
             print("<br>")
+            print(str(author), ": ", email)
+        print("</p>")
 
 
 def create_json():
