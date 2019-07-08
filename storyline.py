@@ -64,8 +64,8 @@ def email_out(name_of_updater = "default_yorai"):
 
     for name, email in authors_to_emails.items():
 
-        msg_content = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\nCheck it out!\n\n May you be forgiven for your sins,\nThe Storyline team."
-        server.sendmail("storyline.notifications@gmail.com", str(email), msg_content)
+        msg_content = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\nCheck it out!\n\nMay you be forgiven for your sins,\nThe Storyline team."
+        server.sendmail("storyline.notifications@gmail.com", [str(email)], msg_content)
         print(msg_content)
 
     server.close()
