@@ -47,8 +47,26 @@ def add_line(new_line):
     return new_line
 
 def email_out(author, authors):
-    # get the authors to email map from json file
-    pass
+    # Get the authors to email map from json file
+    """
+    TODO - GET THE NAME OF THE AUTHOR FROM THE HTTP REQUEST
+    Till then, email everyone.
+    """
+    with open("last_and_story.json") as jsonfile:
+        # Get the authors of the file.
+        authors_to_emails = data["authors"]
+
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.login("storyline.notifications@gmail.com", "storylineApp")
+
+    for name, email in authors_to_emails.items():
+        msg_content = "Hello "+name+  "the Hooman!\n\nThe author " + str(author) + " has posted an update to your shared story!\nCheck it out!\n\n May you be forgiven for your sins,\nThe Storyline team."
+        if name == 'yorai':
+            server.sendmail("storyline.notifications@gmail.com", str(email), msg_content)
+    server.close()
+    
 
 def print_story():
     # Converts the story to html (linebreaks) and prints it.
@@ -62,7 +80,7 @@ def print_story():
             print("<p>"+line+"</p>")
         
         authors = data["authors"]
-        print("<br>The autors are: ")
+        print("<br>The autHors are: ")
         print("<p>")
         for author,email in authors.items():
             print("<br>")
