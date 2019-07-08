@@ -63,9 +63,11 @@ def email_out(name_of_updater = "default_yorai"):
     server.login("storyline.notifications@gmail.com", "storylineApp")
 
     for name, email in authors_to_emails.items():
-        msg_content = "Hello "+name+  "the Hooman!\n\nThe author " + str(author) + " has posted an update to your shared story!\nCheck it out!\n\n May you be forgiven for your sins,\nThe Storyline team."
-        if name == 'yorai':
-            server.sendmail("storyline.notifications@gmail.com", str(email), msg_content)
+        print("name=", name,"|")
+        print(msg)
+        
+        msg_content = "Hello "+name+  "the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\nCheck it out!\n\n May you be forgiven for your sins,\nThe Storyline team."
+        server.sendmail("storyline.notifications@gmail.com", str(email), msg_content)
     server.close()
     
 
