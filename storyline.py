@@ -66,16 +66,16 @@ def print_story():
         print("<p>")
         for author,email in authors.items():
             print("<br>")
-            print(str(author), ": ", email)
+            print(str(author), ": ", str(email))
         print("</p>")
 
 
-def create_json():
-    sample_json = {"last": "This is the most most recent line",
-                    "story": "Old line\nOlder line.\nOldest line.\n",
-                    "authors":{"yorai":"yorai@mit.edu", "elise":"emcc1016@mit.edu"}}
-    with open("last_and_story.json", 'w') as jsonfile:
-        json.dump(sample_json, jsonfile)    
+# def create_json():
+#     sample_json = {"last": "This is the most most recent line",
+#                     "story": "Old line\nOlder line.\nOldest line.\n",
+#                     "authors":{"yorai":"yorai@mit.edu", "elise":"emcc1016@mit.edu"}}
+#     with open("last_and_story.json", 'w') as jsonfile:
+#         json.dump(sample_json, jsonfile)    
 
 
 def handle_request(request):
