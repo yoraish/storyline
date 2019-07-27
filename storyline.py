@@ -69,7 +69,7 @@ def email_out(name_of_updater = "default_yorai", added_line = "default_line"):
     server.login(email_addr, password)
 
     for name, to in authors_to_emails.items():
-        body = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\n"
+        body = "Hello "+name_of_updater+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\n"
         body += "Check it out:\n\n"
         body += added_line + "\n"
         body+= "\n\nMay you be forgiven for your sins,\nThe Storyline team."
