@@ -132,7 +132,7 @@ def handle_request(request):
         res = add_line(new_line)
         print(res)
         # Email out
-        email_out("yorai the strong")
+        email_out("yorai the strong", new_line)
 
 
     if command == "show":
