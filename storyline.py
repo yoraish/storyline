@@ -7,12 +7,12 @@ import sqlite3
 import datetime
 import json
 import smtplib
-from secret import email as email_, 
+from secret import email as email_addr
 from secret import password
 
 # # code that is responsible to return the most recent line from the story and also handle the insertion of a new line
 
-# cgitb.enable()
+cgitb.enable()
 
 #command below takes the arguements from the get request and puts them in some sort of a dictionary
 # There are two options for this script.
@@ -69,7 +69,7 @@ def email_out(name_of_updater = "default_yorai", added_line = "default_line"):
     server.login(email_addr, password)
 
     for name, to in authors_to_emails.items():
-        body = "Hello "+name_of_updater+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\n"
+        body = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\n"
         body += "Check it out:\n\n"
         body += added_line + "\n"
         body+= "\n\nMay you be forgiven for your sins,\nThe Storyline team."
