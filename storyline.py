@@ -7,6 +7,8 @@ import sqlite3
 import datetime
 import json
 import smtplib
+from secret import email as email_, 
+from secret import password
 
 # # code that is responsible to return the most recent line from the story and also handle the insertion of a new line
 
@@ -46,7 +48,7 @@ def add_line(new_line):
         json.dump(new_data, jsonfile)
     return new_line
 
-def email_out(name_of_updater = "default_yorai"):
+def email_out(name_of_updater = "default_yorai", added_line = "default_line"):
     # Get the authors to email map from json file
     """
     TODO - GET THE NAME OF THE AUTHOR FROM THE HTTP REQUEST
@@ -57,16 +59,28 @@ def email_out(name_of_updater = "default_yorai"):
         data = json.load(jsonfile)
         authors_to_emails = data["authors"]
 
-    server = smtplib.SMTP('smtp.gmail.com', 587)
+    gmail_user = email_addr
+    sent_from = email_addr
+    gmail_password = password
+    subject = "Storyline Update!"
+
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.ehlo()
-    server.starttls()
-    server.login("storyline.notifications@gmail.com", "storylineApp")
+    server.login(email_addr, password)
 
-    for name, email in authors_to_emails.items():
-
-        msg_content = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\nCheck it out!\n\nMay you be forgiven for your sins,\nThe Storyline team."
-        server.sendmail("storyline.notifications@gmail.com", [str(email)], msg_content)
-        print(msg_content)
+    for name, to in authors_to_emails.items():
+        body = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\n"
+        body += "Check it out:\n\n"
+        body += added_line + "\n"
+        body+= "\n\nMay you be forgiven for your sins,\nThe Storyline team."
+    
+        email_text = ""
+        email_text += 'From: %s\n' % gmail_user
+        email_text += 'To: %s\n' % ','.join([to])
+        email_text += 'Subject: %s\n\n' % subject
+        email_text += body
+        
+        server.sendmail(sent_from, to, email_text)
 
     server.close()
     
@@ -89,8 +103,6 @@ def print_story():
             print("<br>")
             print(str(author), ": ", str(email))
         print("</p>")
-
-        email_out("yorai the strong")
     
 
 
@@ -115,11 +127,13 @@ def handle_request(request):
         print(last_line)
 
     if command == "add":
-        # Get new line string
+        # Get new added line string
         new_line = request["line"].value
         res = add_line(new_line)
         print(res)
         # Email out
+        email_out("yorai the strong")
+
 
     if command == "show":
         print_story()
