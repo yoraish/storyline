@@ -61,7 +61,6 @@ def email_out(name_of_updater = "default_yorai", added_line = "default_line"):
 
     gmail_user = email_addr
     sent_from = email_addr
-    gmail_password = password
     subject = "Storyline Update!"
 
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
@@ -70,7 +69,8 @@ def email_out(name_of_updater = "default_yorai", added_line = "default_line"):
 
     for name, to in authors_to_emails.items():
         body = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\n"
-        body += "Check it out:\n\n"
+        body += "Check it out!\n\n"
+        body += "<iframe src=\"https://giphy.com/embed/IcifS1qG3YFlS\" width=\"480\" height=\"425\" frameBorder=\"0\" class=\"giphy-embed\" allowFullScreen></iframe><p><a href=\"https://giphy.com/gifs/sure-err-IcifS1qG3YFlS\">via GIPHY</a></p>"
         body+= "\n\nMay you be forgiven for your sins,\nThe Storyline team.\n\n"
         body += "http://scripts.mit.edu/~yorai/storyline/"
         
