@@ -70,7 +70,7 @@ def email_out(name_of_updater = "default_yorai", added_line = "default_line"):
     for name, to in authors_to_emails.items():
         body = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\n"
         body += "Check it out!\n\n"
-        body+= "\n\nMay you be forgiven for your sins,\nThe Storyline team.\n\n"
+        body+= "May you be forgiven for your sins,\nThe Storyline team.\n\n"
         body += "http://scripts.mit.edu/~yorai/storyline/\n\n"
         body += "[https://media.giphy.com/media/IcifS1qG3YFlS/giphy.gif]"
         
@@ -130,10 +130,12 @@ def handle_request(request):
     if command == "add":
         # Get new added line string
         new_line = request["line"].value
+        author_name = request["name"].value
         res = add_line(new_line)
         print(res)
         # Email out
-        email_out("yorai the strong", new_line)
+        email_out(author_name, new_line)
+
 
 
     if command == "show":
