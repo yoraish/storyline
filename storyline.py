@@ -69,9 +69,8 @@ def email_out(name_of_updater = "default_yorai", added_line = "default_line"):
 
     for name, to in authors_to_emails.items():
         body = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\n"
-        body += "Check it out!\n\n"
+        body += "Check it out here:\n  http://scripts.mit.edu/~yorai/storyline/\n\n"
         body+= "May you be forgiven for your sins,\nThe Storyline team.\n\n"
-        body += "http://scripts.mit.edu/~yorai/storyline/\n\n"
         body += "[https://media.giphy.com/media/IcifS1qG3YFlS/giphy.gif]"
         
     
