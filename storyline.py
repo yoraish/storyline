@@ -38,11 +38,15 @@ def add_line(new_line):
         data = json.load(jsonfile)
         story = data["story"] # This loads the whole story to memory, which is kinda meh. But let's assume for now that that's fine.
         authors = data["authors"]
+        line_number = data["line_number"] +1
+        story_goal_length = data["story_goal_length"]
         # Modify new line to be updated
         last_line = new_line
-        # Add it to story, anding the line afterwards
+        # Add it to story, ending the line afterwards
         story+= new_line+"\n"
-        new_data = {"last":last_line, "story":story, "authors": authors}
+        new_data = {"last":last_line, "story":story, "authors": authors, "line_number": line_number, "story_goal_length": story_goal_length}
+        #Check if story is done.
+
     # Wrtie back to json
     with open("last_and_story.json", 'w') as jsonfile:
         json.dump(new_data, jsonfile)
@@ -104,6 +108,13 @@ def print_story():
             print(str(author), ": ", str(email))
         print("</p>")
     
+def printRemaning():
+    with open("last_and_story.json") as jsonfile:
+        # Get the contents of the file.
+        data = json.load(jsonfile)
+        remaining = data["remaining"]
+        print("<p>"+remaining+"</p>")
+        
 
 
 # def create_json():
@@ -132,10 +143,11 @@ def handle_request(request):
         author_name = request["name"].value
         res = add_line(new_line)
         print(res)
-        # Email out
+        # Email out.
         email_out(author_name, new_line)
 
-
+    if command == "remaining":
+        printRemaning()
 
     if command == "show":
         print_story()
