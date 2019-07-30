@@ -113,7 +113,7 @@ def printRemaning():
         # Get the contents of the file.
         data = json.load(jsonfile)
         remaining = data["remaining"]
-        print("<p>"+remaining+"</p>")
+        print("<p>"+str(remaining)+"</p>")
         
 
 
