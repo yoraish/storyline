@@ -22,6 +22,7 @@ cgitb.enable()
 #       Put in the new line at the end of the json string (\n), also as the last line in the json
 #       Return the last line (the one just added)
 
+defaults_ = {"remaining":10}
 
 def get_last_line():
     # load the json file
@@ -38,21 +39,27 @@ def add_line(new_line):
         data = json.load(jsonfile)
         story = data["story"] # This loads the whole story to memory, which is kinda meh. But let's assume for now that that's fine.
         authors = data["authors"]
-        line_number = data["line_number"] +1
-        story_goal_length = data["story_goal_length"]
+        # Decrement the number of lines remaining.
+        lines_remaining = data["remaining"] - 1
         # Modify new line to be updated
         last_line = new_line
         # Add it to story, ending the line afterwards
         story+= new_line+"\n"
-        new_data = {"last":last_line, "story":story, "authors": authors, "line_number": line_number, "story_goal_length": story_goal_length}
         #Check if story is done.
+        if lines_remaining == 0:
+            # Email out the story?
+            # email_out("Storyline Team", True) ############## EMAIL
+            # Re-set the line count of 
+            lines_remaining = defaults_["remaining"]
+            story = "First line of BrandNewStory(TM)"
+        new_data = {"last":last_line, "story":story, "authors": authors, "remaining": lines_remaining}
 
     # Wrtie back to json
     with open("last_and_story.json", 'w') as jsonfile:
         json.dump(new_data, jsonfile)
     return new_line
 
-def email_out(name_of_updater = "default_yorai", added_line = "default_line"):
+def email_out(name_of_updater = "default_yorai", is_story_done = False):
     # Get the authors to email map from json file
     """
     TODO - GET THE NAME OF THE AUTHOR FROM THE HTTP REQUEST
@@ -62,6 +69,8 @@ def email_out(name_of_updater = "default_yorai", added_line = "default_line"):
         # Get the authors of the file.
         data = json.load(jsonfile)
         authors_to_emails = data["authors"]
+        story = data['story']
+        remaining = data['remaining']
 
     gmail_user = email_addr
     sent_from = email_addr
@@ -73,6 +82,12 @@ def email_out(name_of_updater = "default_yorai", added_line = "default_line"):
 
     for name, to in authors_to_emails.items():
         body = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\n"
+        body += "There are " + str(remaining) + "/" + str(defaults_['remaining']) + " lines remaining.\n\n"
+        if is_story_done:
+            body += "Story is DONE! Here it is:\n" + story 
+        
+        
+        
         body += "Check it out here:\n  http://scripts.mit.edu/~yorai/storyline/\n\n"
         body+= "May you be forgiven for your sins,\nThe Storyline team.\n\n"
         body += "[https://media.giphy.com/media/IcifS1qG3YFlS/giphy.gif]"
@@ -144,7 +159,7 @@ def handle_request(request):
         res = add_line(new_line)
         print(res)
         # Email out.
-        email_out(author_name, new_line)
+        email_out(author_name)
 
     if command == "remaining":
         printRemaning()
