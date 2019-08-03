@@ -48,7 +48,7 @@ def add_line(new_line):
         #Check if story is done.
         if lines_remaining == 0:
             # Email out the story?
-            # email_out("Storyline Team", True) ############## EMAIL
+            # email_out("Storyline Team", True) ############# EMAIL
             # Re-set the line count of 
             lines_remaining = defaults_["remaining"]
             story = "First line of BrandNewStory(TM)"
