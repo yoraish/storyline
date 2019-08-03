@@ -31,7 +31,7 @@ def get_last_line():
         last_line = data["last"]
         return last_line
 
-def add_line(new_line):
+def add_line_and_email(new_line, author_name = "Default_Author"):
     # Adds the new line to the story and sets it in the last line place in the json file.
     # Do not forget to add a new line break at the end of the story.
     with open("last_and_story.json") as jsonfile:
@@ -46,9 +46,11 @@ def add_line(new_line):
         # Add it to story, ending the line afterwards
         story+= new_line+"\n"
         #Check if story is done.
+        if lines_remaining != 0:
+            email_out(author_name, False)
         if lines_remaining == 0:
             # Email out the story?
-            # email_out("Storyline Team", True) ############# EMAIL
+            email_out("Storyline Team", True)
             # Re-set the line count of 
             lines_remaining = defaults_["remaining"]
             story = "First line of BrandNewStory(TM)"
@@ -156,10 +158,10 @@ def handle_request(request):
         # Get new added line string
         new_line = request["line"].value
         author_name = request["name"].value
-        res = add_line(new_line)
+        res = add_line_and_email(new_line, author_name)
         print(res)
         # Email out.
-        email_out(author_name)
+        # email_out(author_name)
 
     if command == "remaining":
         printRemaning()
