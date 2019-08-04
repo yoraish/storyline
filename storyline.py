@@ -22,7 +22,7 @@ cgitb.enable()
 #       Put in the new line at the end of the json string (\n), also as the last line in the json
 #       Return the last line (the one just added)
 
-defaults_ = {"remaining":10}
+defaults_ = {"remaining":4}
 
 def get_last_line():
     # load the json file
@@ -41,38 +41,41 @@ def add_line_and_email(new_line, author_name = "Default_Author"):
         authors = data["authors"]
         # Decrement the number of lines remaining.
         lines_remaining = data["remaining"] - 1
+        remaining_string = str(lines_remaining) + "/" + str(defaults_["remaining"])
         # Modify new line to be updated
         last_line = new_line
         # Add it to story, ending the line afterwards
-        story+= new_line+"\n"
+        story += new_line+"\n"
+
         #Check if story is done.
         if lines_remaining != 0:
-            email_out(author_name, False)
+            email_out(author_name, remaining_string, "" )
         if lines_remaining == 0:
             # Email out the story?
-            email_out("Storyline Team", True)
+            email_out("Storyline Team", remaining_string, story)
             # Re-set the line count of 
             lines_remaining = defaults_["remaining"]
             story = "First line of BrandNewStory(TM)"
         new_data = {"last":last_line, "story":story, "authors": authors, "remaining": lines_remaining}
 
-    # Wrtie back to json
+    # Write back to json
     with open("last_and_story.json", 'w') as jsonfile:
         json.dump(new_data, jsonfile)
     return new_line
 
-def email_out(name_of_updater = "default_yorai", is_story_done = False):
+def email_out(name_of_updater = "default_yorai", remaining_string = "#/#",  story_text = ""):
     # Get the authors to email map from json file
     """
-    TODO - GET THE NAME OF THE AUTHOR FROM THE HTTP REQUEST
-    Till then, email everyone.
+    This function does not get any text from the JSON file.
+    All data should be supplied directly in the arguments.
+    Only thing from the JSON is list of emails/authors.
     """
     with open("last_and_story.json") as jsonfile:
         # Get the authors of the file.
         data = json.load(jsonfile)
         authors_to_emails = data["authors"]
-        story = data['story']
-        remaining = data['remaining']
+        # story = data['story']
+        # remaining = data['remaining']
 
     gmail_user = email_addr
     sent_from = email_addr
@@ -84,9 +87,9 @@ def email_out(name_of_updater = "default_yorai", is_story_done = False):
 
     for name, to in authors_to_emails.items():
         body = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\n"
-        body += "There are " + str(remaining) + "/" + str(defaults_['remaining']) + " lines remaining.\n\n"
-        if is_story_done:
-            body += "Story is DONE! Here it is:\n" + story 
+        body += "There are " + remaining_string + " lines remaining.\n\n"
+        if story_text != "":
+            body += "Story is DONE! Here it is:\n" + story_text
         
         
         
@@ -130,7 +133,7 @@ def printRemaning():
         # Get the contents of the file.
         data = json.load(jsonfile)
         remaining = data["remaining"]
-        print("<p>"+str(remaining)+"</p>")
+        print("<p>"+str(remaining)+"/"+ str(defaults_["remaining"]) + "</p>")
         
 
 
