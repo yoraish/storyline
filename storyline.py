@@ -56,6 +56,7 @@ def add_line_and_email(new_line, author_name = "Default_Author"):
             # Re-set the line count of 
             lines_remaining = defaults_["remaining"]
             story = "First line of BrandNewStory(TM)\n"
+            last_line = ""
         new_data = {"last":last_line, "story":story, "authors": authors, "remaining": lines_remaining}
 
     # Write back to json
@@ -89,11 +90,11 @@ def email_out(name_of_updater = "default_yorai", remaining_string = "#/#",  stor
         body = "Hello "+name+  " the Hooman!\n\nThe author " + str(name_of_updater) + " has posted an update to your shared story!\n"
         body += "There are " + remaining_string + " lines remaining.\n\n"
         if story_text != "":
-            body += "Story is DONE! Here it is:\n" + story_text
+            body += "Story is DONE! Here it is:\n" + story_text + "\n\n"
         
         
         
-        body += "Check it out here:\n  http://scripts.mit.edu/~yorai/storyline/\n\n"
+        body += "\nCheck it out here:\n  http://scripts.mit.edu/~yorai/storyline/\n\n"
         body+= "May you be forgiven for your sins,\nThe Storyline team.\n\n"
         body += "[https://media.giphy.com/media/IcifS1qG3YFlS/giphy.gif]"
         
