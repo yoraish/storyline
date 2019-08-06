@@ -55,8 +55,8 @@ def add_line_and_email(new_line, author_name = "Default_Author"):
             email_out("Storyline Team", remaining_string, story)
             # Re-set the line count of 
             lines_remaining = defaults_["remaining"]
-            story = "First line of BrandNewStory(TM)\n"
-            last_line = ""
+            story = "\n"
+            last_line = "Enter the first line for this story! NO PRESSURE BUT IT COUNTS."
         new_data = {"last":last_line, "story":story, "authors": authors, "remaining": lines_remaining}
 
     # Write back to json
