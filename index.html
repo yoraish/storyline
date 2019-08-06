@@ -41,6 +41,18 @@
             document.getElementById("print_last_line").innerHTML =
                 response_text;
         }
+
+        // Now also get the number of lines remaining
+        const Http = new XMLHttpRequest();
+        const url = 'https://yorai.scripts.mit.edu/storyline/storyline.py?command=remaining';
+        Http.open("GET", url);
+        Http.send();
+
+        Http.onreadystatechange = (e) => {
+            var reamining_text = Http.responseText;
+            console.log("Response from command \"remaining\" %s", reamining_text);
+            document.getElementById("remaining_lines_p").innerHTML = "Remaining lines: " + reamining_text;
+        }     
     }
 </script>
 
